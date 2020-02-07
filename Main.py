@@ -8,19 +8,6 @@ def start_up():
 #TODO Greg
 def safety_check():
     #TODO Jon
-    if read_pressure(1) >= 626:
-        return 1
-    else:
-        return 0
-    # TODO research voting systems
-    if read_pressure(2) >= 525:
-        return 1
-    else:
-        return 0
-    if read_pressure(3) >= 25:
-        return 0
-    else:
-        return 1
 
 
 def shut_down():
