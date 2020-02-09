@@ -1,3 +1,7 @@
+import valves
+import sensors
+import data
+
 def fill():
     #TODO Wills
     safety_check()
