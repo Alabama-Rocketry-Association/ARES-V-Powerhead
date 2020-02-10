@@ -1,4 +1,8 @@
 #Valve Module
+import Adafruit_BBIO.GPIO as GPIO
+import Adafruit_BBIO.PWM as PWM
+
+
 def lox_valve(signal):
     #TODO Sean and AJ
 def met_valve(signal):
@@ -10,5 +14,5 @@ def lox_vent(signal):
 def met_vent(signal):
     #TODO AJ and Greg
 
-def p_valve(sinal):
+def p_valve(signal):
     #TODO AJ and Greg
