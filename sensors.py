@@ -18,8 +18,19 @@ def vote(data):
 
     return average(data)
 
-def read_temperature():
+def read_temperature(loc):
+    #Place holder example
+    data = []
+    data.append(150)
+
      #TODO Grant
 def read_pressure(loc):
      #TODO Grant
-
+def write_temperature(loc):
+    #TODO Jon
+def write_pressure(loc):
+    #TODO Jon
+def get_temperature(loc):
+    #TODO Greg
+def get_pressure(loc):
+    #TODO Greg
