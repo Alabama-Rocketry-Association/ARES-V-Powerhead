@@ -13,7 +13,7 @@ def set_close():
     v.lox_vent(0)
     v.met_valve(0)
     v.met_vent(0)
-
+#this needs to be fixed
 
 def bit():
     #built in test function, designed to check if every electrical connection is available for communications
