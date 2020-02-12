@@ -7,16 +7,23 @@ import time
 # still not sure what signal will be sent for the valve positions
 
 def set_close():
-    #sets all valves to the close position and also verifies the connection to the valves
+    # sets all valves to the close position and also verifies the connection to the valves
     v.p_valve(0)
     v.lox_valve(0)
     v.lox_vent(0)
     v.met_valve(0)
     v.met_vent(0)
-#this needs to be fixed
+
+
+# this needs to be fixed
 
 def bit():
-    #built in test function, designed to check if every electrical connection is available for communications
+    # built in test function, designed to check if every electrical connection is available for communications
+    if safety_check():
+        print("Sensors Reading Correctly")
+    else:
+        print("Can't Read Sensors")
+        shut_down()
     set_close()
 
 
@@ -37,22 +44,19 @@ def safety_check():
 
 def power_on():
     bit()
-    safety_check()
 
 
-def fill_start(valve):
+def fill(valve):
     # TODO Wills
     if valve == 0:
         v.met_vent(1)
-    else:
-        v.lox_vent(1)
-
-
-def fill_stop(valve):
-    # TODO Wills
-    if valve == 0:
+        while sensors.get_temperature(1) > 150:
+            continue
         v.met_vent(0)
     else:
+        v.lox_vent(1)
+        while sensors.get_temperature(3) > 150:
+            continue
         v.lox_vent(0)
 
 
@@ -75,3 +79,5 @@ def shut_down():
     v.met_valve(0)
     v.lox_vent(1)
     v.met_vent(1)
+    sensors.save_data()
+    v.save_data()

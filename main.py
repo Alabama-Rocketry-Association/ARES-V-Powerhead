@@ -1,56 +1,41 @@
-#ARES Engine Control Software
+# ARES Engine Control Software
 import engine
 import time
+import data
+
+
 def main():
     # TODO Greg
     t0 = time.time()
 
     engine.power_on()
 
-    t1 = time.time()
-    t_power_on = t1 - t0
+    engine.fill(0)
 
-
-    engine.fill_start(0)
-
-    t2 = time.time()
-    t_fill_start0 = t2-t1
-
-
-    engine.fill_stop(0)
-
-    t3 = time.time()
-    t_fill_stop0 = t3 - t2
-
-
-    engine.fill_start(1)
-
-    t4 = time.time()
-    t_fill_start1 = t4 - t3
-
-
-    engine.fill_stop(1)
-
-    t5 = time.time()
-    t_fill_stop1 = t5 - t4
-
+    engine.fill(1)
 
     engine.start_up()
 
-    t6 = time.time()
-    t_engine_start_up = t6 - t5
+    for i in range(1000):
+        engine.safety_check()
 
-    engine.safety_check()
+    engine.shut_down()
 
-    t7 = time.time()
-    t_engine_safety_check = t7- t6
+    # # Sensor data post processing
+    # data.process_sensor_data('p0.pkl')
+    # data.process_sensor_data('p1.pkl')
+    # data.process_sensor_data('p2.pkl')
+    # data.process_sensor_data('t0.pkl')
+    data.process_sensor_data('t1.pkl')
+    # data.process_sensor_data('t2.pkl')
+    data.process_sensor_data('t3.pkl')
 
-    print(t_power_on)
-    print(t_fill_start0)
-    print(t_fill_stop0)
-    print(t_fill_start1)
-    print(t_fill_stop1)
-    print(t_engine_start_up)
-    print(t_engine_safety_check)
+    # Valve data post processing
+    # data.process_valve_data('lox_valve.pkl')
+    # data.process_valve_data('met_valve.pkl')
+    # data.process_valve_data('lox_vent.pkl')
+    # data.process_valve_data('met_vent.pkl')
+    # data.process_valve_data('p_valve.pkl')
+
 
 main()
