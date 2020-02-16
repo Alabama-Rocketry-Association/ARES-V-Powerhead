@@ -31,7 +31,6 @@ def average(data):
 def vote(data):
     # TODO Greg
     list_avg = average(data)
-
     diff = [abs(list_avg - data[0]), abs(list_avg - data[1]), abs(list_avg - data[2])]
     del data[diff.index(max(diff))]
 
@@ -46,13 +45,11 @@ def read_temperature(loc):
     # the appends are test data, these need to be replaced
     # with actual pin readings
     if loc == 0:  # bottom of methane tank
-        print(TEMPDATA[0][Iter])
         temps.append(TEMPDATA[Iter][0])
         temps.append(TEMPDATA[Iter][1])
         temps.append(TEMPDATA[Iter][2])
     elif loc == 1:  # top of methane tank
         temps.append(TEMPDATA[Iter][0])
-        print(TEMPDATA[Iter][0])
         temps.append(TEMPDATA[Iter][1])
         temps.append(TEMPDATA[Iter][2])
     elif loc == 2:  # bottom of LOX tank
@@ -148,11 +145,9 @@ def save_data():
     DF_t_0.to_pickle('t0.pkl')
     global DF_t_1
     DF_t_1.to_pickle('t1.pkl')
-    print(DF_t_1)
     global DF_t_2
     DF_t_2.to_pickle('t2.pkl')
     global DF_t_3
-    print(DF_t_3)
     DF_t_3.to_pickle('t3.pkl')
     global DF_p_0
     DF_p_0.to_pickle('p0.pkl')
