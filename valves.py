@@ -1,20 +1,27 @@
 # Valve Module
-# import Adafruit_BBIO.GPIO as GPIO
+import Adafruit_BBIO.GPIO as GPIO
 # import Adafruit_BBIO.PWM as PWM
 import pandas as pd
 import time
 
-DF_lox_valve = pd.DataFrame(columns=['time', 'position'])
-DF_met_valve = pd.DataFrame(columns=['time', 'position'])
-DF_lox_vent = pd.DataFrame(columns=['time', 'position'])
-DF_met_vent = pd.DataFrame(columns=['time', 'position'])
-DF_p_valve = pd.DataFrame(columns=['time', 'position'])
+lox_valve = "P8_8"
+lox_valve_df = pd.DataFrame(columns=['time', 'position'])
+met_valve = "P8_10"
+met_valve_df = pd.DataFrame(columns=['time', 'position'])
+lox_vent = "P8_12"
+lox_vent_df = pd.DataFrame(columns=['time', 'position'])
+met_vent = "P8_14"
+met_vent_df = pd.DataFrame(columns=['time', 'position'])
+p_valve = "P8_16"
+p_valve_df = pd.DataFrame(columns=['time', 'position'])
 
 
-def lox_valve(signal):
+
+def operate_lox_valve(signal):
     t = time.process_time()
-
+    global lox_valve
     if signal == 0:
+
         print('LOX Valve Closed')
     elif signal == 0.1:
         print('LOX Valve Partial Open')
@@ -22,11 +29,13 @@ def lox_valve(signal):
         print('LOX Valve Full Open')
 
     df = pd.DataFrame([[t, signal]], columns=['time', 'position'])
-    global DF_lox_valve
-    DF_lox_valve = DF_lox_valve.append(df)
+    global lox_valve_df
+    lox_valve_df = lox_valve_df.append(df)
 
 
-def met_valve(signal):
+def operate_met_valve(signal):
+    global met_valve_df
+    global met_valve
     t = time.process_time()
 
     if signal == 0:
@@ -37,11 +46,11 @@ def met_valve(signal):
         print('Methane Valve Full Open')
 
     df = pd.DataFrame([[t, signal]], columns=['time', 'position'])
-    global DF_met_valve
-    DF_met_valve = DF_met_valve.append(df)
+    met_valve_df = met_valve_df.append(df)
 
 
-def lox_vent(signal):
+def operate_lox_vent(signal):
+    global lox_vent_df
     # capture time
     t = time.process_time()
     # for testing purposes
@@ -52,40 +61,40 @@ def lox_vent(signal):
     # save time and signal in data frame
     df = pd.DataFrame([[t, signal]], columns=['time', 'position'])
     # append to global data frame
-    global DF_lox_vent
-    DF_lox_vent.append(df)
+
+    lox_vent_df.append(df)
 
 
-def met_vent(signal):
+def operate_met_vent(signal):
     t = time.process_time()
     if signal == 0:
         print('Methane Vent Closed')
     else:
         print('Methane Vent Open')
     df = pd.DataFrame([[t, signal]], columns=['time', 'position'])
-    global DF_met_vent
-    DF_met_vent = DF_met_vent.append(df)
+    global met_vent_df
+    met_vent_df = met_vent_df.append(df)
 
 
-def p_valve(signal):
+def operate_p_valve(signal):
     t = time.process_time()
     if signal == 0:
         print('Pressurant Valve Closed')
     else:
         print('Pressurant Valve Open')
     df = pd.DataFrame([[t, signal]], columns=['time', 'position'])
-    global DF_p_valve
-    DF_p_valve = DF_p_valve.append(df)
+    global p_valve_df
+    p_valve_df = p_valve_df.append(df)
 
 
 def save_data():
-    global DF_lox_valve
-    DF_lox_valve.to_pickle('lox_valve.pkl')
-    global DF_met_valve
-    DF_met_valve.to_pickle('met_valve.pkl')
-    global DF_lox_vent
-    DF_lox_vent.to_pickle('lox_vent.pkl')
-    global DF_met_vent
-    DF_met_vent.to_pickle('met_vent.pkl')
-    global DF_p_valve
-    DF_p_valve.to_pickle('p_valve.pkl')
+    global lox_valve_df
+    lox_valve_df.to_pickle('lox_valve.pkl')
+    global met_valve_df
+    met_valve_df.to_pickle('met_valve.pkl')
+    global lox_vent_df
+    lox_vent_df.to_pickle('lox_vent.pkl')
+    global met_vent_df
+    met_vent_df.to_pickle('met_vent.pkl')
+    global p_valve_df
+    p_valve_df.to_pickle('p_valve.pkl')
