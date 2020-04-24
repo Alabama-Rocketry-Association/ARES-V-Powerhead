@@ -10,6 +10,7 @@ p_0 = ['P9_36', 'P9_38', 'P9_40']
 DF_p_1 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
 p_1 = ['P9_33', 'P9_35', 'P9_37']
 DF_p_2 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
+p_2 = ['P9_39', 'P9_32', 'P9_34']
 DF_t_0 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
 DF_t_1 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
 DF_t_2 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
@@ -68,6 +69,8 @@ def read_temperature(loc):
     Iter += 1
     return t_dat
     # TODO Grant
+
+
 def volt_to_psi(val):
     return (1715.465955 * (val*1.8) - 312.506433)
 
@@ -90,11 +93,9 @@ def read_pressure(loc):
     if loc == 0:  # Combustion Chamber
         DF_p_0.append(calc_pressure(p_0))
     elif loc == 1:  # Methane Tank
-        DF_p_1.append(calc_pressure(p_0))
+        DF_p_1.append(calc_pressure(p_1))
     elif loc == 2:  # LOX tank
-        press.append(626)
-        press.append(630)
-        press.append(650)
+        DF_p_2.append(calc_pressure(p_1))
     else:
         print('Invalid Location')
     p_dat = [t, press]
