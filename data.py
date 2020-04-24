@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
 def plot_sensor_data(data):
     a = data.plot(x='time', y='sensor0')
     b = data.plot(x='time', y='sensor1')

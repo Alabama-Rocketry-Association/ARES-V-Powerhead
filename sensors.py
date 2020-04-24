@@ -1,12 +1,15 @@
 # Sensors Module
+import Adafruit_BBIO.ADC as ADC
 import csv
 import time
 import pandas as pd
 
-DF_p_0 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
-DF_p_1 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
-DF_p_2 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
 
+DF_p_0 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
+p_0 = ['P9_36', 'P9_38', 'P9_40']
+DF_p_1 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
+p_1 = ['P9_33', 'P9_35', 'P9_37']
+DF_p_2 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
 DF_t_0 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
 DF_t_1 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
 DF_t_2 = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
@@ -33,7 +36,6 @@ def vote(data):
     list_avg = average(data)
     diff = [abs(list_avg - data[0]), abs(list_avg - data[1]), abs(list_avg - data[2])]
     del data[diff.index(max(diff))]
-
     return average(data)
 
 
@@ -66,6 +68,17 @@ def read_temperature(loc):
     Iter += 1
     return t_dat
     # TODO Grant
+def volt_to_psi(val):
+    return (1715.465955 * (val*1.8) - 312.506433)
+
+def calc_pressure(loc):
+    # TODO fix this function
+    df = pd.DataFrame(columns=['time', 'sensor0', 'sensor1', 'sensor2'])
+    df.time = time.process_time()
+    df.sensor0 = volt_to_psi(ADC.read(loc[0]))
+    df.sensor1 = volt_to_psi(ADC.read(loc[1]))
+    df.sensor2 = volt_to_psi(ADC.read(loc[2]))
+    return df
 
 
 def read_pressure(loc):
@@ -75,13 +88,9 @@ def read_pressure(loc):
     # the appends are test data, these need to be replaced
     # with actual pin readings
     if loc == 0:  # Combustion Chamber
-        press.append(100)
-        press.append(200)
-        press.append(300)
+        DF_p_0.append(calc_pressure(p_0))
     elif loc == 1:  # Methane Tank
-        press.append(526)
-        press.append(540)
-        press.append(519)
+        DF_p_1.append(calc_pressure(p_0))
     elif loc == 2:  # LOX tank
         press.append(626)
         press.append(630)

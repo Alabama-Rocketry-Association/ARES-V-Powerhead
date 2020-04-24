@@ -23,7 +23,6 @@ GPIO.setup(p_valve, GPIO.OUT)
 p_valve_df = pd.DataFrame(columns=['time', 'position'])
 
 
-
 def operate_lox_valve(signal):
     t = time.process_time()
     global lox_valve_df
@@ -32,10 +31,10 @@ def operate_lox_valve(signal):
         PWM.stop(lox_valve)
         print('LOX Valve Closed')
     elif signal == 0.1:
-        PWM.start(lox_valve, 10)
+        PWM.start(lox_valve, 25)
         print('LOX Valve Partial Open')
     else:
-        PWM.set_duty_cycle(lox_valve, 500)
+        PWM.set_duty_cycle(lox_valve, 255)
         print('LOX Valve Full Open')
     df = pd.DataFrame([[t, signal]], columns=['time', 'position'])
     lox_valve_df = lox_valve_df.append(df)
@@ -53,7 +52,7 @@ def operate_met_valve(signal):
         PWM.start(met_valve, 10)
         print('Methane Valve Partial Open')
     else:
-        PWM.set_duty_cycle(met_valve, 500)
+        PWM.set_duty_cycle(met_valve, 255)
         print('Methane Valve Full Open')
 
     df = pd.DataFrame([[t, signal]], columns=['time', 'position'])
@@ -88,7 +87,6 @@ def operate_met_vent(signal):
         GPIO.output(met_vent, GPIO.HIGH)
         print('Methane Vent Open')
     df = pd.DataFrame([[t, signal]], columns=['time', 'position'])
-
     met_vent_df = met_vent_df.append(df)
 
 
