@@ -1,7 +1,8 @@
-import valves as v
+from valve import Valve
 import sensors
 import time
 from tkinter import *
+import time
 
 
 # 0 and 1 will correlate to open and close position
@@ -45,18 +46,27 @@ def main():
     t3lbl = Label(window, text='Unknown')
     t3lbl.grid(column=1, row=5)
 
+    lox_main = Valve('LOX Propellant Valve', 'P8_13', 'Prop')
+    met_main = Valve('Methane Propellant Valve', 'P8_19', 'Prop')
+    lox_vent = Valve('LOX Vent Valve', 'P8_12', 'Solenoid')
+    met_vent = Valve('Methane Vent Valve', 'P8_14', 'Solenoid')
+    p_valve = Valve('Pressurant Valve', 'P8_16', 'Solenoid')
+
     def set_close():
-        # sets all valves to the close position and also verifies the connection to the valves
-        v.p_valve(0)
-        v.lox_valve(0)
-        v.lox_vent(0)
-        v.met_valve(0)
-        v.met_vent(0)
+        # sets all valves to the close position and also verifies the
+        # connection to the valves
+        lox_main.close()
+        met_main.close()
+        lox_vent.close()
+        met_vent.close()
+        p_valve.close()
+        lox_main.get_state()
 
     # this needs to be fixed
 
     def bit():
-        # built in test function, designed to check if every electrical connection is available for communications
+        # built in test function, designed to check if every electrical
+        # connection is available for communications
         if safety_check():
             print("Sensors Reading Correctly")
         else:
@@ -66,7 +76,8 @@ def main():
 
     def safety_check():
         # TODO Greg
-        data = [sensors.get_pressure(0), sensors.get_pressure(1), sensors.get_pressure(2)]
+        data = [sensors.get_pressure(0), sensors.get_pressure(1),
+                sensors.get_pressure(2)]
         if data[0] > 500:  # TODO determine actual engine pressure red-lines
             p0lbl.configure(text=data[0])
             shut_down()
@@ -81,8 +92,6 @@ def main():
             return False
         else:
             return True
-
-
 
     def fill(valve):
         # TODO Wills
@@ -131,13 +140,17 @@ def main():
 
     Btn1 = Button(window, text='Launch BIT', command=lambda: bit(), bg='blue')
     Btn1.grid(column=0, row=0)
-    Btn2 = Button(window, text='Methane Fill', command=lambda: fill(0), bg='yellow')
+    Btn2 = Button(window, text='Methane Fill', command=lambda: fill(0),
+                  bg='yellow')
     Btn2.grid(column=0, row=1)
-    Btn3 = Button(window, text='LOX Fill', command=lambda: fill(1), bg='yellow')
+    Btn3 = Button(window, text='LOX Fill', command=lambda: fill(1),
+                  bg='yellow')
     Btn3.grid(column=1, row=1)
-    Btn4 = Button(window, text='Engine Start-Up', command=lambda: launch(), bg='green')
+    Btn4 = Button(window, text='Engine Start-Up', command=lambda: launch(),
+                  bg='green')
     Btn4.grid(column=0, row=6)
-    Btn5 = Button(window, text='Engine Shut-Down', command=lambda: shut_down(), bg='red')
+    Btn5 = Button(window, text='Engine Shut-Down', command=lambda: shut_down(),
+                  bg='red')
     Btn5.grid(column=1, row=6)
     window.mainloop()
 
